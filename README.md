@@ -6,7 +6,7 @@ This POC showcases my Full Stack Skills(MERN) and UI/UX skills.\
 It consists of Login/Register Page as well.\
 It fetches the dummy recipe API and displays the instructions and other different recipes related stuffs on the page.\
 
-Tools and Technologies used:-.\
+# Tools and Technologies used:-.\
 ProtoTyping: Figma.\
 Framework: ReactJS.\
 Backend: Node.js and Express.js.\
