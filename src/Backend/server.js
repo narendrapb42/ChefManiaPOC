@@ -64,16 +64,29 @@ app.post('/loginuser',async (req,res)=>{
 })
 
 app.post('/cookform',async(req,res,next)=>{
+    console.log(req)
     const {name,contact,email,message} = req.body
-    
+    const authHeader = req.headers.authorization
+
+    const token = authHeader.split(' ')[1]
     if(name ==='' || contact === '' || email === '' || message === ''){
         return res.status(400).json({msg:'Please provide all values'})
     }
+    if(!token){
+        return res.status(400).json({msg:'Token does not exist'})
+    }
     try{
-        const data = new CookForm({name,contact,email,message})
-        await data.save()
-    
-        res.status(200).json({msg:'Submitted Succesfully'})
+        const verifyUser = jwt.verify(token,process.env.SECRET_KEY)
+
+        if(verifyUser){
+            const data = new CookForm({name,contact,email,message})
+            await data.save()
+            return res.status(200).json({msg:'Submitted Succesfully'})
+        }
+        else{
+            return res.status(400).json({msg:'Unauthorized!'})
+        }
+        
     }catch(err){
         return res.status(400).json({msg:'Something went wrong. Please try again'})
     }

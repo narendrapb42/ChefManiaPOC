@@ -2,13 +2,16 @@ import { NavLink, useNavigate } from "react-router-dom";
 import logo from '../Images/ChefManiaLogo.png'
 import { useDispatch } from "react-redux";
 import { toggleUserLog } from "../Slices/chefSlice";
-import { Modal } from "@mui/material";
-import { useState } from "react";
+import { CircularProgress, Modal } from "@mui/material";
+import { useEffect, useState } from "react";
 export default function NavBar(){
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
+    const [logOut, setLogOut] = useState(false)
+
+ 
     return(
         <div className="nav-container">
         
@@ -25,13 +28,20 @@ export default function NavBar(){
             }} className='btn'>Logout</button></div>
              <Modal open={open}>
                 <div className="btn-container">
-                    <p style={{color:'white'}}>Do you want to logout?</p>
+                    <p style={{color:'white'}}>{logOut ? 'Logging out...' : 'Do you want to logout?'}</p>
                     <button className='btn' onClick={()=>{
                         localStorage.removeItem('login')
                         dispatch(toggleUserLog(false))
-                        navigate('/')
+                        setLogOut(true)
+                        setTimeout(()=>{
+                            navigate('/')
+                            setLogOut(false)
+                        },2000)
+                        
+                       
                     }}>Yes</button>
                     <button className='btn' onClick={()=>{setOpen(false)}}>No</button>
+                    
                 </div>
                 
              </Modal>

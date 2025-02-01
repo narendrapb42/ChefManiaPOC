@@ -50,7 +50,7 @@ export default function Login(){
                     try{
                         const response = await axios.post('http://localhost:5000/loginuser',values)
                         console.log(response)
-                        localStorage.setItem('login',response.token)
+                        localStorage.setItem('login',response.data.token)
                         setFormSuccess(response.data.msg)
                         dispatch(setUserName(response.data.name))
                         resetForm()

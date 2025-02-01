@@ -10,10 +10,10 @@ import { Warning } from "@mui/icons-material";
 export default function CookForm(){
     const [success, setSuccess] = useState('')
     const [formErrors, setFormErrors] = useState('')
-
+    const token = localStorage.getItem('login')
     useEffect(()=>{
         gsap.fromTo('.cook-img',{scale:0},{scale:1,ease:'bounce'})
-    })
+    },[])
 
     useEffect(()=>{
         const time = setTimeout(()=>{
@@ -52,7 +52,7 @@ export default function CookForm(){
                         return
                     }
                     try{
-                        const response = await axios.post('http://localhost:5000/cookform',values)
+                        const response = await axios.post('http://localhost:5000/cookform',values,{headers:{Authorization:`Bearer ${token}`}})
                         setSuccess(response.data.msg)
                         resetForm()
                     }catch(err){
